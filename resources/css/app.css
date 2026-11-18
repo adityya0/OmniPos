@@ -1,0 +1,260 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --font-heading: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+    --font-body: "Inter", system-ui, -apple-system, sans-serif;
+    --text-heading: #0F172A;
+    --text-body: #475569;
+    --text-secondary: #64748B;
+}
+
+@layer base {
+    html {
+        font-family: var(--font-body);
+        font-feature-settings: "cv02", "cv03", "cv04", "cv11", "zero" 0;
+        text-rendering: optimizeLegibility;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Hindari angka nol bercoret (Consolas) pada seluruh angka & nominal .font-mono */
+    .font-mono {
+        font-family: var(--font-heading), "Figtree", system-ui, -apple-system, sans-serif !important;
+        font-variant-numeric: tabular-nums;
+        font-feature-settings: "tnum" 1, "zero" 0;
+    }
+
+    body {
+        font-family: var(--font-body);
+        font-weight: 400;
+        color: var(--text-body);
+        letter-spacing: 0;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        font-family: var(--font-heading);
+        text-wrap: balance;
+    }
+}
+
+/* Typography System Classes */
+.type-hero-h1 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--text-heading);
+    text-wrap: balance;
+}
+
+.type-h2 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: clamp(1.625rem, 3vw, 2.5rem);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--text-heading);
+    text-wrap: balance;
+}
+
+.type-h3 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: clamp(1.125rem, 1.5vw, 1.25rem);
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    color: var(--text-heading);
+    text-wrap: balance;
+}
+
+.type-body {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    max-width: 60ch;
+    color: var(--text-body);
+}
+
+.type-nav {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: 0.9375rem;
+}
+
+.type-btn {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    letter-spacing: 0;
+}
+
+.type-badge {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+[x-cloak] {
+    display: none !important;
+}
+
+/* Sembunyikan scrollbar untuk elemen dengan kelas .no-scrollbar */
+.no-scrollbar::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+.no-scrollbar {
+    -ms-overflow-style: none !important; /* IE and Edge */
+    scrollbar-width: none !important; /* Firefox */
+}
+
+/* Scrollbar aplikasi yang lebih halus dan modern */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(148, 163, 184, 0.4);
+    border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(100, 116, 139, 0.7);
+}
+
+/* ========================================================
+   SMOOTH PAGE TRANSITIONS & VIEW TRANSITIONS
+   ======================================================== */
+@view-transition {
+    navigation: auto;
+}
+
+::view-transition-old(app-sidebar),
+::view-transition-new(app-sidebar),
+::view-transition-old(app-header),
+::view-transition-new(app-header) {
+    animation: none;
+    mix-blend-mode: normal;
+}
+
+::view-transition-old(app-main) {
+    animation: 100ms cubic-bezier(0.4, 0, 1, 1) both pageFadeOut;
+}
+
+::view-transition-new(app-main) {
+    animation: 180ms cubic-bezier(0.16, 1, 0.3, 1) both pageFadeIn;
+}
+
+@keyframes pageFadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(6px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pageFadeOut {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+}
+
+/* Marquee animasi bergerak mulus dari kiri ke kanan */
+@keyframes marqueeLtr {
+    0% {
+        transform: translateX(-50%);
+    }
+    100% {
+        transform: translateX(0%);
+    }
+}
+
+.animate-marquee-ltr {
+    display: flex;
+    width: max-content;
+    animation: marqueeLtr 24s linear infinite;
+    will-change: transform;
+}
+
+.animate-marquee-ltr:hover {
+    animation-play-state: paused;
+}
+
+.page-transition {
+    animation: pageFadeIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    will-change: opacity, transform;
+}
+
+/* ========================================================
+   FLUSH OUTLINE WORKSPACE SYSTEM (ZERO CARD GAP, EDGE-TO-EDGE)
+   ======================================================== */
+.outline-workspace .page-transition > div > .space-y-6 > * + *,
+.outline-workspace .page-transition > div > .space-y-5 > * + *,
+.outline-workspace .page-transition > div > .space-y-4 > * + *,
+.outline-workspace .page-transition > .space-y-6 > * + *,
+.outline-workspace .page-transition > .space-y-5 > * + *,
+.outline-workspace .page-transition > div > div > .space-y-6 > * + *,
+.outline-workspace .page-transition > div > div > .space-y-5 > * + * {
+    margin-top: 0 !important;
+}
+
+/* Top-level KPI & Section Grids -> Zero Gap, Attached 1px Outlines (unless .keep-card-gap) */
+.outline-workspace .page-transition > div > div > .grid:not(.keep-card-gap),
+.outline-workspace .page-transition > div > .grid:not(.keep-card-gap),
+.outline-workspace .page-transition > .grid:not(.keep-card-gap),
+.outline-workspace .page-transition > div > div > div > .grid:not(.keep-card-gap) {
+    gap: 0 !important;
+    border-bottom: 1px solid #e2e8f0;
+    background-color: #ffffff;
+}
+
+.outline-workspace .page-transition > div > div > .grid:not(.keep-card-gap) > div,
+.outline-workspace .page-transition > div > .grid:not(.keep-card-gap) > div,
+.outline-workspace .page-transition > .grid:not(.keep-card-gap) > div,
+.outline-workspace .page-transition > div > div > div > .grid:not(.keep-card-gap) > div {
+    border-radius: 0 !important;
+    border-top: 0 !important;
+    border-left: 0 !important;
+    border-right: 1px solid #e2e8f0 !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+}
+
+/* Top-level Section Panels & Tables -> Edge-to-Edge Outline */
+.outline-workspace .page-transition > div > div > .bg-white,
+.outline-workspace .page-transition > div > .bg-white,
+.outline-workspace .page-transition > .bg-white,
+.outline-workspace .page-transition > div > div > div > .bg-white,
+.outline-workspace .page-transition > div > div > form.bg-white {
+    border-radius: 0 !important;
+    border-top: 0 !important;
+    border-left: 0 !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+    box-shadow: none !important;
+}
+
+
+
